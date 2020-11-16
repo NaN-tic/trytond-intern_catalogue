@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- The COPYRIGHT file at the top level of this repository contains the full
+     copyright notices and license terms. -->
+<data>
+  <xpath expr="/form/field[@name='company']" position="after">
+      <label name="employee"/>
+      <field name="employee"/>
+  </xpath>
+  <xpath expr="/form/notebook/page[@name='moves']" position="after">
+      <page name="catalog_lines">
+        <field name="catalogues" colspan="2"/>
+        <field name="catalog_lines" colspan="2"/>
+        <button name="create_lines" colspan="4" icon="tryton-go-next"/>
+        <button name="create_moves" string="Create Moves" colspan="4" icon="tryton-go-next"/>
+      </page>
+  </xpath>
+</data>

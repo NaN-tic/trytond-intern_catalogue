@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- This file is part intern_catalogue module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+        <!-- shipment internal -->
+        <record model="ir.ui.view" id="shipment_internal_view_form">
+            <field name="model">stock.shipment.internal</field>
+            <field name="inherit" ref="stock.shipment_internal_view_form"/>
+            <field name="name">shipment_internal_form</field>
+        </record>
+
+        <record model="ir.model.button" id="create_lines_button">
+            <field name="name">create_lines</field>
+            <field name="string">Create Lines</field>
+            <field name="model" search="[('model', '=', 'stock.shipment.internal')]"/>
+        </record>
+
+        <record model="ir.model.button" id="ccreate_moves_button">
+            <field name="name">create_moves</field>
+            <field name="string">Create Moves</field>
+            <field name="model" search="[('model', '=', 'stock.shipment.internal')]"/>
+        </record>
+
+        <!-- Shipment Internal Catalog Line-->
+        <record model="ir.ui.view" id="catalog_line_view_tree_sequence">
+            <field name="model">stock.shipment.internal.catalog_line</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="name">shipment_internal_catalog_line_tree</field>
+        </record>
+        <record model="ir.ui.view" id="catalog_line_view_form">
+            <field name="model">stock.shipment.internal.catalog_line</field>
+            <field name="type">form</field>
+            <field name="name">shipment_internal_catalog_line_form</field>
+        </record>
+
+    </data>
+</tryton>

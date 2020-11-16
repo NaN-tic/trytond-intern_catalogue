@@ -1,0 +1,17 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "model:ir.message,text:msg_error_quantity_product"
+msgid ""
+"The entered quantity for product \"%(product)s\" is bigger than the maximum "
+"amount permited \"%(amount)s\""
+msgstr ""
+"La quantitat entrada per el producte \"%(product)s\" és més gran que la "
+"quantitat màxima permessa \"%(amount)s\""
+
+msgctxt "model:ir.message,text:msg_same_from_to_locations"
+msgid "Check \"%(locations)s\" in \"To Location\" because are the same from Catalog"
+msgstr ""
+"Marqueu \"%(locations)s\" a \"A la ubicació\" perqueè són els mateixos del "
+"Catàleg"

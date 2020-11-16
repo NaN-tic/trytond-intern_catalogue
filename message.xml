@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data grouped="1">
+        <record model="ir.message" id="msg_error_quantity_product">
+            <field name="text">The entered quantity for product "%(product)s" is bigger than the maximum amount permited "%(amount)s".</field>
+        </record>
+        <record model="ir.message" id="msg_same_from_to_locations">
+            <field name="text">Check "%(locations)s" in "To Location" because are the same from Catalog'.</field>
+        </record>
+    </data>
+</tryton>
