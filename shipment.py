@@ -22,19 +22,47 @@ class ShipmentCatalogues(ModelSQL):
 class ShipmentInternalCatalogLine(ModelSQL, ModelView):
     'Lines from the catalogs entered by the user in the app'
     __name__ = 'stock.shipment.internal.catalog_line'
-    catalogue = fields.Many2One('stock.location.catalogue', 'Catalogue')
+    catalogue = fields.Many2One('stock.location.catalogue', 'Catalogue',
+        states={
+            'readonly': Eval('internal_state') != 'draft',
+            },
+        depends=['internal_state'])
     internal_shipment = fields.Many2One('stock.shipment.internal', 'Shipment',
-        required=True, ondelete="CASCADE")
-    product = fields.Many2One('product.product', 'Product', required=True)
+        required=True, ondelete='CASCADE',
+        states={
+            'readonly': Eval('internal_state') != 'draft',
+            },
+        depends=['internal_state'])
+    product = fields.Many2One('product.product', 'Product', required=True,
+        states={
+            'readonly': Eval('internal_state') != 'draft',
+            },
+        depends=['internal_state'])
     quantity = fields.Float('Quantity', required=True,
-        digits=(16, Eval('unit_digits', 2)), depends=['unit_digits'])
+        digits=(16, Eval('unit_digits', 2)),
+        states={
+            'readonly': Eval('internal_state') != 'draft',
+            },
+        depends=['internal_state', 'unit_digits'])
     max_quantity = fields.Float('Max Quantity', required=True, readonly=True,
-        digits=(16, Eval('unit_digits', 2)), depends=['unit_digits'])
+        digits=(16, Eval('unit_digits', 2)),
+        states={
+            'readonly': Eval('internal_state') != 'draft',
+            },
+        depends=['internal_state', 'unit_digits'])
     served_quantity = fields.Function(fields.Float('Served Quantity',
         readonly=True, digits=(16, Eval('unit_digits', 2)),
         depends=['unit_digits']), 'on_change_with_served_quantity')
     unit_digits = fields.Function(fields.Integer('Unit Digits'),
         'on_change_with_unit_digits')
+    internal_state = fields.Function(fields.Selection([], 'Internal Shipment State'),
+        'on_change_with_internal_state')
+
+    @classmethod
+    def __setup__(cls):
+        Internal = Pool().get('stock.shipment.internal')
+        super(ShipmentInternalCatalogLine, cls).__setup__()
+        cls.internal_state.selection = Internal.state.selection
 
     @staticmethod
     def default_quantity():
@@ -55,6 +83,11 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
             return self.product.default_uom.digits
         return 2
 
+    @fields.depends('internal_shipment', '_parent_internal_shipment.state')
+    def on_change_with_internal_state(self, name=None):
+        if self.internal_shipment:
+            return self.internal_shipment.state
+
     @classmethod
     def validate(cls, lines):
         for line in lines:
@@ -70,13 +103,23 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
 class ShipmentInternal(metaclass=PoolMeta):
     __name__ = 'stock.shipment.internal'
     employee = fields.Many2One('company.employee', 'Employee',
-        help='Employee that made the request')
+        states={
+            'readonly': Eval('state').in_(['cancel', 'done']),
+        },
+        depends=['state'], help='Employee that made the request')
     catalogues = fields.Many2Many(
         'stock.shipment.internal-stock.location.catalogue',
-        'shipment', 'catalogue', 'Catalogues')
+        'shipment', 'catalogue', 'Catalogues',
+        states={
+            'readonly': Eval('state').in_(['cancel', 'done']),
+            },
+        depends=['state'])
     catalog_lines = fields.One2Many('stock.shipment.internal.catalog_line',
-        'internal_shipment', 'Catalog Lines', help='Lines entered by the user',
-        )
+        'internal_shipment', 'Catalog Lines',
+        states={
+            'readonly': Eval('state').in_(['cancel', 'done']),
+            },
+        depends=['state'], help='Lines entered by the user')
 
     @classmethod
     def __setup__(cls):
