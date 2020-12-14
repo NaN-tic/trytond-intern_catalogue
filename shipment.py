@@ -115,7 +115,7 @@ class ShipmentInternal(metaclass=PoolMeta):
             },
         depends=['state'])
     catalog_lines = fields.One2Many('stock.shipment.internal.catalog_line',
-        'internal_shipment', 'Catalog Lines',
+        'internal_shipment', 'Catalog Lines', readonly=True,
         states={
             'readonly': Eval('state').in_(['cancel', 'done']),
             },
