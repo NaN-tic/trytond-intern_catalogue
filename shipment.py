@@ -110,10 +110,12 @@ class ShipmentInternal(metaclass=PoolMeta):
     catalogues = fields.Many2Many(
         'stock.shipment.internal-stock.location.catalogue',
         'shipment', 'catalogue', 'Catalogues',
-        states={
+        domain=[
+            If(Eval('state').in_(['draft', 'waiting']), ('location', '=', Eval('from_location')), ())
+        ], states={
             'readonly': Eval('state').in_(['cancel', 'done']),
             },
-        depends=['state'])
+        depends=['state', 'from_location'])
     catalog_lines = fields.One2Many('stock.shipment.internal.catalog_line',
         'internal_shipment', 'Catalog Lines', readonly=True,
         states={
@@ -168,10 +170,6 @@ class ShipmentInternal(metaclass=PoolMeta):
             ('to_location', 'child_of', [Eval('to_location', -1)],
                 'parent'),
             ]
-
-    @classmethod
-    def default_from_location(cls):
-        return Transaction().context.get('catalogue_from_location')
 
     @classmethod
     def default_to_location(cls):
