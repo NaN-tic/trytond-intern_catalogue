@@ -212,7 +212,7 @@ class ShipmentInternal(metaclass=PoolMeta):
         to_delete = []
         same_from_to_locations = set()
         for shipment in shipments:
-            if shipment.state != 'draft' or not shipment.catalogue_lines:
+            if shipment.state != 'draft' or not shipment.catalog_lines:
                 continue
             to_delete.append(shipment)
             move_lines_with_quantity = [line for line in shipment.catalog_lines
