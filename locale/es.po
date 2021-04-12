@@ -2,16 +2,172 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "field:stock.shipment.internal,catalog_lines:"
+msgid "Catalog Lines"
+msgstr "Líneas catálogo"
+
+msgctxt "field:stock.shipment.internal,catalogues:"
+msgid "Catalogues"
+msgstr "Catálogos"
+
+msgctxt "field:stock.shipment.internal,employee:"
+msgid "Employee"
+msgstr "Empleado"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,catalogue:"
+msgid "Catalogue"
+msgstr "Catálogo"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,rec_name:"
+msgid "Record Name"
+msgstr "Nombre del registro"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,shipment:"
+msgid "Shipment"
+msgstr "Albarán"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,write_date:"
+msgid "Write Date"
+msgstr "Fecha de modificación"
+
+msgctxt "field:stock.shipment.internal-stock.location.catalogue,write_uid:"
+msgid "Write User"
+msgstr "Usuario de modificación"
+
+msgctxt "field:stock.shipment.internal.catalog_line,catalogue:"
+msgid "Catalogue"
+msgstr "Catálogo"
+
+msgctxt "field:stock.shipment.internal.catalog_line,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:stock.shipment.internal.catalog_line,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:stock.shipment.internal.catalog_line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.internal.catalog_line,internal_shipment:"
+msgid "Shipment"
+msgstr "Albarán"
+
+msgctxt "field:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Internal Shipment State"
+msgstr "Estado albarán interno"
+
+msgctxt "field:stock.shipment.internal.catalog_line,max_quantity:"
+msgid "Max Quantity"
+msgstr "Cantidad máxima"
+
+msgctxt "field:stock.shipment.internal.catalog_line,product:"
+msgid "Product"
+msgstr "Producto"
+
+msgctxt "field:stock.shipment.internal.catalog_line,quantity:"
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgctxt "field:stock.shipment.internal.catalog_line,rec_name:"
+msgid "Record Name"
+msgstr "Nombre del registro"
+
+msgctxt "field:stock.shipment.internal.catalog_line,served_quantity:"
+msgid "Served Quantity"
+msgstr "Cantidad entregada"
+
+msgctxt "field:stock.shipment.internal.catalog_line,unit_digits:"
+msgid "Unit Digits"
+msgstr "Decimales de la unidad"
+
+msgctxt "field:stock.shipment.internal.catalog_line,write_date:"
+msgid "Write Date"
+msgstr "Fecha de modificación"
+
+msgctxt "field:stock.shipment.internal.catalog_line,write_uid:"
+msgid "Write User"
+msgstr "Usuario de modificación"
+
+msgctxt "help:stock.shipment.internal,catalog_lines:"
+msgid "Lines entered by the user"
+msgstr "Líneas introducidas por el usuario"
+
+msgctxt "help:stock.shipment.internal,employee:"
+msgid "Employee that made the request"
+msgstr "Empleado que realizó la solicitud"
+
 msgctxt "model:ir.message,text:msg_error_quantity_product"
 msgid ""
 "The entered quantity for product \"%(product)s\" is bigger than the maximum "
 "amount permited \"%(amount)s\"."
 msgstr ""
-"La cantidad del producto \"%(product)s\" es más grande que la cantidad máxima "
-"permitida \"%(amount)s\""
+"La cantidad del producto \"%(product)s\" es más grande que la cantidad "
+"máxima permitida \"%(amount)s\""
 
 msgctxt "model:ir.message,text:msg_same_from_to_locations"
-msgid "Check \"%(locations)s\" in \"To Location\" because are the same from Catalog."
+msgid "Check \"%(locations)s\" in \"To Location\" because are the same from Catalog'."
 msgstr ""
 "La ubicación \"%(locations)s\" a \"A ubicación\" debe ser la misma que el "
 "catálogo"
+
+msgctxt "model:ir.model.button,string:create_lines_button"
+msgid "Create Lines"
+msgstr "Líneas catálogo"
+
+msgctxt "model:ir.model.button,string:create_moves_button"
+msgid "Create Moves"
+msgstr "Crear movimientos"
+
+msgctxt "model:stock.shipment.internal-stock.location.catalogue,name:"
+msgid "Shipment Internal - Stock Location Catalogue"
+msgstr "Albarán interno - Stock ubicación catálogo"
+
+msgctxt "model:stock.shipment.internal.catalog_line,name:"
+msgid "Lines from the catalogs entered by the user in the app"
+msgstr "Líneas de los catálogos ingresados por el usuario en la aplicación"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Assigned"
+msgstr "Reservado"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Canceled"
+msgstr "Cancelado"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Done"
+msgstr "Finalizar"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Request"
+msgstr "Solicitud"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Shipped"
+msgstr "Enviado"
+
+msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
+msgid "Waiting"
+msgstr "En espera"
+
+msgctxt "view:stock.shipment.internal:"
+msgid "Create Moves"
+msgstr "Crear movimientos"
