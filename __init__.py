@@ -11,4 +11,5 @@ def register():
         shipment.ShipmentCatalogues,
         shipment.ShipmentInternalCatalogLine,
         shipment.ShipmentInternal,
+        shipment.Move,
         module=module, type_='model')
