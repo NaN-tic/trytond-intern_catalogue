@@ -273,7 +273,22 @@ class ShipmentInternal(metaclass=PoolMeta):
 
     @classmethod
     def draft(cls, shipments):
+        pool = Pool()
+        CatalogLine = pool.get('stock.shipment.internal.catalog_line')
+        Move = pool.get('stock.move')
+
+        # remove all moves to_location is transit and origin is from catalogue lines
+        to_delete = []
+        for shipment in shipments:
+            for m in shipment.moves:
+                if (m.to_location == shipment.transit_location and m.origin
+                        and isinstance(m.origin.origin, CatalogLine)):
+                    to_delete.append(m)
+        if to_delete:
+            Move.delete(to_delete)
+
         super(ShipmentInternal, cls).draft(shipments)
+
         # remove and create new moves from catalog lines
         cls.create_moves(shipments)
 
