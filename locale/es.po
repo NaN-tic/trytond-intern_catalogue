@@ -90,9 +90,9 @@ msgctxt "field:stock.shipment.internal.catalog_line,served_quantity:"
 msgid "Served Quantity"
 msgstr "Cantidad entregada"
 
-msgctxt "field:stock.shipment.internal.catalog_line,unit_digits:"
-msgid "Unit Digits"
-msgstr "Decimales de la unidad"
+msgctxt "field:stock.shipment.internal.catalog_line,unit:"
+msgid "Unit"
+msgstr "Unidad"
 
 msgctxt "field:stock.shipment.internal.catalog_line,write_date:"
 msgid "Write Date"

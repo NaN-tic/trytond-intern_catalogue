@@ -38,23 +38,20 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
             'readonly': Eval('internal_state') != 'draft',
             },
         depends=['internal_state'])
-    quantity = fields.Float('Quantity', required=True,
-        digits=(16, Eval('unit_digits', 2)),
+    quantity = fields.Float('Quantity', required=True, digits='unit',
         states={
             'readonly': Eval('internal_state') != 'draft',
             },
-        depends=['internal_state', 'unit_digits'])
+        depends=['internal_state'])
     max_quantity = fields.Float('Max Quantity', required=True, readonly=True,
-        digits=(16, Eval('unit_digits', 2)),
-        states={
+        digits='unit', states={
             'readonly': Eval('internal_state') != 'draft',
             },
-        depends=['internal_state', 'unit_digits'])
+        depends=['internal_state'])
     served_quantity = fields.Function(fields.Float('Served Quantity',
-        readonly=True, digits=(16, Eval('unit_digits', 2)),
-        depends=['unit_digits']), 'on_change_with_served_quantity')
-    unit_digits = fields.Function(fields.Integer('Unit Digits'),
-        'on_change_with_unit_digits')
+        readonly=True, digits='unit'), 'on_change_with_served_quantity')
+    unit = fields.Function(fields.Many2One('product.uom', 'Unit'),
+        'on_change_with_unit')
     internal_state = fields.Function(fields.Selection([], 'Internal Shipment State'),
         'on_change_with_internal_state')
 
@@ -78,10 +75,9 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
         return 0
 
     @fields.depends('product')
-    def on_change_with_unit_digits(self, name=None):
+    def on_change_with_unit(self, name=None):
         if self.product:
-            return self.product.default_uom.digits
-        return 2
+            return self.product.default_uom.id
 
     @fields.depends('internal_shipment', '_parent_internal_shipment.state')
     def on_change_with_internal_state(self, name=None):
