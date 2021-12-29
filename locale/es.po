@@ -137,8 +137,8 @@ msgid "Shipment Internal - Stock Location Catalogue"
 msgstr "Albarán interno - Stock ubicación catálogo"
 
 msgctxt "model:stock.shipment.internal.catalog_line,name:"
-msgid "Lines from the catalogs entered by the user in the app"
-msgstr "Líneas de los catálogos ingresados por el usuario en la aplicación"
+msgid "Lines Catalog Internal"
+msgstr "Líneas de catálogos internos"
 
 msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
 msgid "Assigned"

@@ -9,7 +9,7 @@ from trytond.i18n import gettext
 from trytond.exceptions import UserError
 
 __all__ = ['ShipmentCatalogues', 'ShipmentInternalCatalogLine',
-    'ShipmentInternal']
+    'ShipmentInternal', 'Move']
 
 
 class ShipmentCatalogues(ModelSQL):
@@ -20,7 +20,7 @@ class ShipmentCatalogues(ModelSQL):
 
 
 class ShipmentInternalCatalogLine(ModelSQL, ModelView):
-    'Lines from the catalogs entered by the user in the app'
+    'Lines Catalog Internal'
     __name__ = 'stock.shipment.internal.catalog_line'
     catalogue = fields.Many2One('stock.location.catalogue', 'Catalogue',
         states={
@@ -54,6 +54,10 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
         'on_change_with_unit')
     internal_state = fields.Function(fields.Selection([], 'Internal Shipment State'),
         'on_change_with_internal_state')
+    moves = fields.One2Many('stock.move', 'origin', 'Moves', readonly=True)
+    move_state = fields.Function(fields.Selection('get_move_states', 'Move State'),
+        'get_move_state')
+    move_state_string = move_state.translated('move_state')
 
     @classmethod
     def __setup__(cls):
@@ -64,6 +68,27 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
     @staticmethod
     def default_quantity():
         return 0
+
+    @staticmethod
+    def get_move_states():
+        Move = Pool().get('stock.move')
+        return [(None, '')] + Move.state.selection
+
+    @classmethod
+    def get_move_state(cls, lines, name):
+        res = dict((x.id, None) for x in lines)
+        for line in lines:
+            moves = line.moves
+            if not moves:
+                continue
+
+            if len(moves) > 1:
+                moves_states = [m.state for m in moves if m.state != 'cancel']
+                move_state = moves_states[0] if moves_states else 'cancel'
+            else:
+                move_state = moves[0].state
+            res[line.id] = move_state
+        return res
 
     @fields.depends('internal_shipment', '_parent_internal_shipment.moves')
     def on_change_with_served_quantity(self, name=None):
@@ -131,7 +156,7 @@ class ShipmentInternal(metaclass=PoolMeta):
                 'invisible': Eval('catalog_lines'),
                 },
             'create_moves': {
-                'invisible': (~Eval('catalog_lines') | Eval('moves') |
+                'invisible': (~Eval('catalog_lines') |
                     (Eval('state') != 'draft')),
                 },
             })
@@ -202,7 +227,9 @@ class ShipmentInternal(metaclass=PoolMeta):
     @classmethod
     @ModelView.button
     def create_moves(cls, shipments):
-        Move = Pool().get('stock.move')
+        pool = Pool()
+        Move = pool.get('stock.move')
+        CatalogLine = pool.get('stock.shipment.internal.catalog_line')
 
         to_create = []
         to_delete = []
@@ -210,7 +237,9 @@ class ShipmentInternal(metaclass=PoolMeta):
         for shipment in shipments:
             if shipment.state != 'draft' or not shipment.catalog_lines:
                 continue
-            to_delete.append(shipment)
+            to_delete += [m for m in shipment.moves
+                    if (m.state in ('draft', 'cancel')
+                    and (m.origin and m.origin.__name__ == CatalogLine.__name__))]
             move_lines_with_quantity = [line for line in shipment.catalog_lines
                 if line.quantity > 0]
             for line in move_lines_with_quantity:
@@ -225,21 +254,46 @@ class ShipmentInternal(metaclass=PoolMeta):
                 move.product = line.product
                 move.on_change_product()
                 move.quantity = line.quantity
+                move.origin = line
                 to_create.append(move)
         if same_from_to_locations:
             raise UserError(gettext('intern_catalogue.msg_same_from_to_locations',
                     locations=','.join(list(same_from_to_locations))))
 
         if to_delete:
-            Move.draft([m for s in to_delete for m in s.moves])
-            Move.delete([m for s in to_delete for m in s.moves
-                    if m.state in ('draft', 'cancel')])
+            Move.draft(to_delete)
+            Move.delete(to_delete)
 
         if to_create:
             Move.create([x._save_values for x in to_create])
 
     @classmethod
     def draft(cls, shipments):
+        pool = Pool()
+        CatalogLine = pool.get('stock.shipment.internal.catalog_line')
+        Move = pool.get('stock.move')
+
+        # remove all moves to_location is transit and origin is from catalogue lines
+        to_delete = []
+        for shipment in shipments:
+            for m in shipment.moves:
+                if (m.to_location == shipment.transit_location and m.origin
+                        and isinstance(m.origin.origin, CatalogLine)):
+                    to_delete.append(m)
+        if to_delete:
+            Move.delete(to_delete)
+
         super(ShipmentInternal, cls).draft(shipments)
+
         # remove and create new moves from catalog lines
         cls.create_moves(shipments)
+
+
+class Move(metaclass=PoolMeta):
+    __name__ = 'stock.move'
+
+    @classmethod
+    def _get_origin(cls):
+        models = super(Move, cls)._get_origin()
+        models.append('stock.shipment.internal.catalog_line')
+        return models
