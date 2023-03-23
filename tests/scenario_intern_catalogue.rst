@@ -92,11 +92,11 @@ Create Shipment Internal::
     >>> len(shipment_internal.moves) == 2
     True
     >>> move1, move2 = shipment_internal.moves
-    >>> move1.quantity == line2.quantity
+    >>> move2.quantity == line2.quantity
     True
-    >>> move1.product == line2.product
+    >>> move2.product == line2.product
     True
-    >>> move2.quantity == line1.quantity
+    >>> move1.quantity == line1.quantity
     True
-    >>> move2.product == line1.product
+    >>> move1.product == line1.product
     True
