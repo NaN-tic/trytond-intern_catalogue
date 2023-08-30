@@ -4,7 +4,7 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 
 msgctxt "field:stock.shipment.internal,catalog_lines:"
 msgid "Catalog Lines"
-msgstr "Linies de catàleg"
+msgstr "Línies de catàleg"
 
 msgctxt "field:stock.shipment.internal,catalogues:"
 msgid "Catalogues"
@@ -126,7 +126,7 @@ msgstr ""
 
 msgctxt "model:ir.model.button,string:create_lines_button"
 msgid "Create Lines"
-msgstr "Linies de catàleg"
+msgstr "Línies de catàleg"
 
 msgctxt "model:ir.model.button,string:create_moves_button"
 msgid "Create Moves"
@@ -138,7 +138,7 @@ msgstr "Albarà intern - Stock catàleg ubicació"
 
 msgctxt "model:stock.shipment.internal.catalog_line,name:"
 msgid "Lines Catalog Internal"
-msgstr "Linies de catàlegs interns"
+msgstr "Línies de catàlegs interns"
 
 msgctxt "selection:stock.shipment.internal.catalog_line,internal_state:"
 msgid "Assigned"
