@@ -6,7 +6,7 @@
       <label name="employee"/>
       <field name="employee"/>
   </xpath>
-  <xpath expr="/form/notebook/page[@name='moves']" position="after">
+  <xpath expr="/form/notebook/page[@name='incoming_moves']" position="after">
       <page name="catalog_lines">
         <field name="catalogues" colspan="2"/>
         <field name="catalog_lines" colspan="2"/>
