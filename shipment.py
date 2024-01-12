@@ -25,29 +25,24 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
     catalogue = fields.Many2One('stock.location.catalogue', 'Catalogue',
         states={
             'readonly': Eval('internal_state') != 'draft',
-            },
-        depends=['internal_state'])
+            })
     internal_shipment = fields.Many2One('stock.shipment.internal', 'Shipment',
         required=True, ondelete='CASCADE',
         states={
             'readonly': Eval('internal_state') != 'draft',
-            },
-        depends=['internal_state'])
+            })
     product = fields.Many2One('product.product', 'Product', required=True,
         states={
             'readonly': Eval('internal_state') != 'draft',
-            },
-        depends=['internal_state'])
+            })
     quantity = fields.Float('Quantity', required=True, digits='unit',
         states={
             'readonly': Eval('internal_state') != 'draft',
-            },
-        depends=['internal_state'])
+            })
     max_quantity = fields.Float('Max Quantity', required=True, readonly=True,
         digits='unit', states={
             'readonly': Eval('internal_state') != 'draft',
-            },
-        depends=['internal_state'])
+            })
     served_quantity = fields.Function(fields.Float('Served Quantity',
         readonly=True, digits='unit'), 'on_change_with_served_quantity')
     unit = fields.Function(fields.Many2One('product.uom', 'Unit'),
@@ -126,8 +121,7 @@ class ShipmentInternal(metaclass=PoolMeta):
     employee = fields.Many2One('company.employee', 'Employee',
         states={
             'readonly': Eval('state').in_(['cancel', 'done']),
-        },
-        depends=['state'], help='Employee that made the request')
+        }, help='Employee that made the request')
     catalogues = fields.Many2Many(
         'stock.shipment.internal-stock.location.catalogue',
         'shipment', 'catalogue', 'Catalogues',
@@ -135,14 +129,12 @@ class ShipmentInternal(metaclass=PoolMeta):
             If(Eval('state').in_(['draft', 'waiting']), ('location', '=', Eval('from_location')), ())
         ], states={
             'readonly': Eval('state').in_(['cancel', 'done']),
-            },
-        depends=['state', 'from_location'])
+            })
     catalog_lines = fields.One2Many('stock.shipment.internal.catalog_line',
         'internal_shipment', 'Catalog Lines', readonly=True,
         states={
             'readonly': Eval('state').in_(['cancel', 'done']),
-            },
-        depends=['state'], help='Lines entered by the user')
+            }, help='Lines entered by the user')
 
     @classmethod
     def __setup__(cls):
