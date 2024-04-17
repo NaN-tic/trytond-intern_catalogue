@@ -13,13 +13,13 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
         <record model="ir.model.button" id="create_lines_button">
             <field name="name">create_lines</field>
             <field name="string">Create Lines</field>
-            <field name="model" search="[('model', '=', 'stock.shipment.internal')]"/>
+            <field name="model">stock.shipment.internal</field>
         </record>
 
         <record model="ir.model.button" id="create_moves_button">
             <field name="name">create_moves</field>
             <field name="string">Create Moves</field>
-            <field name="model" search="[('model', '=', 'stock.shipment.internal')]"/>
+            <field name="model">stock.shipment.internal</field>
         </record>
 
         <!-- Shipment Internal Catalog Line-->
