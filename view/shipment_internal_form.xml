@@ -10,8 +10,8 @@
       <page name="catalog_lines">
         <field name="catalogues" colspan="2"/>
         <field name="catalog_lines" colspan="2"/>
-        <button name="create_lines" colspan="4" icon="tryton-go-next"/>
-        <button name="create_moves" string="Create Moves" colspan="4" icon="tryton-go-next"/>
+        <button name="create_lines" colspan="4" icon="tryton-forward"/>
+        <button name="create_moves" string="Create Moves" colspan="4" icon="tryton-forward"/>
       </page>
   </xpath>
 </data>
