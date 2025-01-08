@@ -209,7 +209,7 @@ class ShipmentInternal(metaclass=PoolMeta):
                     new_line.catalogue = catalogue
                     to_create.append(new_line)
         if to_create:
-            CatalogLine.create([x._save_values for x in to_create])
+            CatalogLine.create([x._save_values() for x in to_create])
 
     @classmethod
     def app_create_moves(cls, shipment_ids):
@@ -257,7 +257,7 @@ class ShipmentInternal(metaclass=PoolMeta):
             Move.delete(to_delete)
 
         if to_create:
-            Move.create([x._save_values for x in to_create])
+            Move.create([x._save_values() for x in to_create])
 
     @classmethod
     def draft(cls, shipments):
