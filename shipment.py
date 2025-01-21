@@ -152,37 +152,6 @@ class ShipmentInternal(metaclass=PoolMeta):
                     (Eval('state') != 'draft')),
                 },
             })
-        # replace from_location in moves domain
-        cls.moves.domain = [
-            If(Eval('state') == 'draft', [
-                    ('to_location', '=', Eval('to_location')),
-                    ],
-                If(~Eval('transit_location'),
-                    [
-                        ('to_location', 'child_of',
-                            [Eval('to_location', -1)], 'parent'),
-                        ],
-                    ['OR',
-                        [
-                            ('to_location', '=', Eval('transit_location')),
-                            ],
-                        [
-                            ('to_location', 'child_of',
-                                [Eval('to_location', -1)], 'parent'),
-                            ],
-                        ])),
-            ('company', '=', Eval('company')),
-            ]
-        cls.outgoing_moves.domain = [
-            If(~Eval('transit_location'),
-                ('to_location', 'child_of', [Eval('to_location', -1)],
-                    'parent'),
-                ('to_location', '=', Eval('transit_location')))
-            ]
-        cls.incoming_moves.domain = [
-            ('to_location', 'child_of', [Eval('to_location', -1)],
-                'parent'),
-            ]
 
     @classmethod
     def default_to_location(cls):
