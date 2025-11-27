@@ -7,9 +7,7 @@ from trytond.pyson import Eval, If
 from trytond.transaction import Transaction
 from trytond.i18n import gettext
 from trytond.exceptions import UserError
-
-__all__ = ['ShipmentCatalogues', 'ShipmentInternalCatalogLine',
-    'ShipmentInternal', 'Move']
+from trytond.model.exceptions import ValidationError
 
 
 class ShipmentCatalogues(ModelSQL):
@@ -111,7 +109,7 @@ class ShipmentInternalCatalogLine(ModelSQL, ModelView):
 
     def check_validate_max_quantity(self):
         if self.quantity > self.max_quantity:
-            raise UserError(gettext('intern_catalogue.msg_error_quantity_product',
+            raise ValidationError(gettext('intern_catalogue.msg_error_quantity_product',
                     product=self.product.rec_name,
                     amount=self.max_quantity))
 
