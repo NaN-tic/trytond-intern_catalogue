@@ -3,7 +3,7 @@
 from trytond.pool import PoolMeta, Pool
 from trytond.model import fields, ModelSQL, ModelView
 from trytond.rpc import RPC
-from trytond.pyson import Eval, If
+from trytond.pyson import Bool, Eval, If
 from trytond.transaction import Transaction
 from trytond.i18n import gettext
 from trytond.exceptions import UserError
@@ -143,10 +143,10 @@ class ShipmentInternal(metaclass=PoolMeta):
             })
         cls._buttons.update({
             'create_lines': {
-                'invisible': Eval('catalog_lines'),
+                'invisible': Bool(Eval('catalog_lines')),
                 },
             'create_moves': {
-                'invisible': (~Eval('catalog_lines') |
+                'invisible': (~Bool(Eval('catalog_lines')) |
                     (Eval('state') != 'draft')),
                 },
             })
