@@ -198,7 +198,8 @@ class ShipmentInternal(metaclass=PoolMeta):
                 continue
             to_delete += [m for m in shipment.moves
                     if (m.state in ('draft', 'cancel')
-                    and (m.origin and m.origin.__name__ == CatalogLine.__name__))]
+                    and (m.origin
+                        and getattr(m.origin, '__name__', None) == CatalogLine.__name__))]
             move_lines_with_quantity = [line for line in shipment.catalog_lines
                 if line.quantity > 0]
             for line in move_lines_with_quantity:
