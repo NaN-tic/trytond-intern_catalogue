@@ -246,7 +246,9 @@ class ShipmentInternal(metaclass=PoolMeta):
         super(ShipmentInternal, cls).draft(shipments)
 
         # remove and create new moves from catalog lines
-        cls.create_moves(shipments)
+        shipments = [s for s in shipments if s.catalog_lines]
+        if shipments:
+            cls.create_moves(shipments)
 
 
 class Move(metaclass=PoolMeta):
